@@ -28,3 +28,13 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+
+
+def counting_ingredients(request, recipe: str):
+    servings = int(request.GET.get("servings", 1))
+    ingredients = {}
+    if recipe in DATA.keys():
+        for ingredient, amount in DATA[recipe].items():
+            ingredients[ingredient] = amount * servings
+    context = {"recipe": ingredients}
+    return render(request, 'calculator/index.html', context)
