@@ -18,7 +18,7 @@
     </div>
 
     <div class="content">
-      {% for phone in phones %}
+      {% for phone in page %}
         <div class="phone">
           <a href="{% url 'phone' phone.slug %}">
             <h3>{{ phone.name }}</h3>
@@ -28,5 +28,14 @@
         </div>
       {% endfor %}
     </div>
+
+    {% if page.has_previous %}
+      <a class="button button-primary" href="?page={{ page.previous_page_number }}">⟵</a>
+    {% endif %}
+      <a class="button disabled" href="">{{ page.number }}</a>
+    {% if page.has_next %}
+      <a class="button button-primary" href="?page={{ page.next_page_number }}">⟶</a>
+    {% endif %}
+
   </div>
 {% endblock %}
