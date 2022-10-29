@@ -7,6 +7,7 @@ class AdvertisementStatusChoices(models.TextChoices):
 
     OPEN = "OPEN", "Открыто"
     CLOSED = "CLOSED", "Закрыто"
+    DRAFT = "DRAFT", "Черновик"
 
 
 class Advertisement(models.Model):
@@ -16,7 +17,7 @@ class Advertisement(models.Model):
     description = models.TextField(default='')
     status = models.TextField(
         choices=AdvertisementStatusChoices.choices,
-        default=AdvertisementStatusChoices.OPEN
+        default=AdvertisementStatusChoices.DRAFT
     )
     creator = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -28,3 +29,11 @@ class Advertisement(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
+    users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        db_table='Favorites',
+        related_name='favor_adv'
+    )
+
+    class Meta:
+        ordering = ['-status', 'created_at', 'id']

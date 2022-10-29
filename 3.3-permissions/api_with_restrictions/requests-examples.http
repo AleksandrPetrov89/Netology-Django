@@ -1,6 +1,6 @@
 # примеры API-запросов
 
-@baseUrl = https://localhost:8000/api
+@baseUrl = http://localhost:8000/api
 
 # получение объявлений
 GET {{baseUrl}}/advertisements/
@@ -8,10 +8,39 @@ Content-Type: application/json
 
 ###
 
+# получение объявлений от пользователя
+GET {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token 3d3a30d63ff1901f58e2e91d6c9d3dfa58f309f4
+
+###
+
+# получение объявлений от админа
+GET {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token d6ea5bac249373eab45f5292b3bc3a0185361fca
+
+
+###
+
+# получение объявления по его id
+GET {{baseUrl}}/advertisements/6/
+Content-Type: application/json
+
+###
+
+# получение объявления по его id
+GET {{baseUrl}}/advertisements/8/
+Content-Type: application/json
+Authorization: Token 3d3a30d63ff1901f58e2e91d6c9d3dfa58f309f4
+
+###
+
 # создание объявления
 POST {{baseUrl}}/advertisements/
 Content-Type: application/json
-Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
+Authorization: Token 3d3a30d63ff1901f58e2e91d6c9d3dfa58f309f4
+
 
 {
   "title": "Шкаф IKEA",
@@ -21,9 +50,9 @@ Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/1/
+PATCH {{baseUrl}}/advertisements/4/
 Content-Type: application/json
-Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
+Authorization: Token d6ea5bac249373eab45f5292b3bc3a0185361fca
 
 {
   "status": "CLOSED"
@@ -32,11 +61,55 @@ Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
 ###
 
 # фильтрация по создателю
-GET {{baseUrl}}/advertisements/?creator=3
+GET {{baseUrl}}/advertisements/?creator=2
+Content-Type: application/json
+
+
+###
+
+# фильтрация по дате
+GET {{baseUrl}}/advertisements/?created_at_before=2022-10-26
 Content-Type: application/json
 
 ###
 
 # фильтрация по дате
-GET {{baseUrl}}/advertisements/?created_at_before=2020-10-01
+GET {{baseUrl}}/advertisements/?created_at_after=2022-10-27
 Content-Type: application/json
+
+###
+
+# фильтрация по статусу
+GET {{baseUrl}}/advertisements/?status=DRAFT
+Content-Type: application/json
+Authorization: Token d6ea5bac249373eab45f5292b3bc3a0185361fca
+
+###
+
+# получение избранных объявлений
+GET {{baseUrl}}/advertisements/list_favorites/
+Content-Type: application/json
+Authorization: Token 3d3a30d63ff1901f58e2e91d6c9d3dfa58f309f4
+
+###
+
+# добавление объявления в избранное
+POST {{baseUrl}}/advertisements/add_to_favorites/
+Content-Type: application/json
+Authorization: Token 3d3a30d63ff1901f58e2e91d6c9d3dfa58f309f4
+
+{
+  "id": 2
+}
+
+###
+
+
+# удаление объявления из избранного
+DELETE {{baseUrl}}/advertisements/destroy_favorites/
+Content-Type: application/json
+Authorization: Token d6ea5bac249373eab45f5292b3bc3a0185361fca
+
+{
+  "id": 4
+}
