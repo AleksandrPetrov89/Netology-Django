@@ -50,12 +50,13 @@ Authorization: Token 3d3a30d63ff1901f58e2e91d6c9d3dfa58f309f4
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/4/
+PATCH {{baseUrl}}/advertisements/10/
 Content-Type: application/json
 Authorization: Token d6ea5bac249373eab45f5292b3bc3a0185361fca
 
 {
-  "status": "CLOSED"
+  "status": "OPEN",
+  "description": "Срочно нужны деньги"
 }
 
 ###
