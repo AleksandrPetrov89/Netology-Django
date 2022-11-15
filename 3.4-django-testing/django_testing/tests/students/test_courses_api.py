@@ -162,8 +162,8 @@ def test_course_deletion(client, course_factory):
     ['quantity', 'status_code'],
     (
         (3, 201),
-        (20, 201),
-        (21, 400)
+        (4, 201),
+        (5, 400)
     )
 )
 @pytest.mark.django_db
@@ -171,7 +171,7 @@ def test_course_create_validation(client, student_factory, course_factory,
                                   settings, quantity, status_code):
 
     # Arrange
-    settings.MAX_STUDENTS_PER_COURSE = 2
+    settings.MAX_STUDENTS_PER_COURSE = 4
 
     students = student_factory(_quantity=quantity)
     students_id = [student.id for student in students]
@@ -188,11 +188,11 @@ def test_course_create_validation(client, student_factory, course_factory,
 @pytest.mark.parametrize(
     ['quantity_1', 'status_code_1', 'quantity_2', 'status_code_2'],
     (
+        (2, 200, 2, 200),
         (3, 200, 2, 200),
-        (10, 200, 10, 200),
-        (21, 400, 5, 200),
-        (5, 200, 16, 400),
-        (21, 400, 22, 400)
+        (6, 400, 3, 200),
+        (4, 200, 2, 400),
+        (6, 400, 7, 400)
     )
 )
 @pytest.mark.django_db
@@ -200,7 +200,7 @@ def test_course_update_validation(client, course_factory, student_factory, setti
                                   quantity_1, status_code_1, quantity_2, status_code_2):
 
     # Arrange
-    settings.MAX_STUDENTS_PER_COURSE = 2
+    settings.MAX_STUDENTS_PER_COURSE = 5
 
     students_1 = student_factory(_quantity=quantity_1)
     students_1_id = [student.id for student in students_1]
